@@ -9,14 +9,13 @@ needs to be able to:
 
 const express = require("express");
 const mongoose = require("mongoose");
-const Key = require("./models/key.model");
-const keyRoutes = require("./routes/key.route");
+const routes = require("./routes/index");
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api", keyRoutes);
+app.use("/api", routes);
 
 mongoose
   .connect(
