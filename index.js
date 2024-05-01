@@ -6,8 +6,8 @@ needs to be able to:
  *  Requirement 2   : Accept {key: '...'} and return it's corresponding value
  *  Requirement 3   : If given {key: '...', timestamp: '...'}, return the value with with the same timestamp
  */
-const env = require("dotenv").config();
 const express = require("express");
+const serverless = require("serverless-http");
 const mongoose = require("mongoose");
 const routes = require("./routes/v1/index");
 const app = express();
@@ -30,3 +30,5 @@ mongoose
   .catch(() => {
     console.log("Connection to database failed");
   });
+
+module.exports.handler = serverless(app);
