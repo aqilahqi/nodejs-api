@@ -1,7 +1,7 @@
 /**
- * Build a version controlled key-value store with a HTTP API we can query that from. The API
+ * Build a version controlled key-value Key with a HTTP API we can query that from. The API
 needs to be able to:
- *  Requirement 1   : Accept {key: '...', value: '...'} and store them
+ *  Requirement 1   : Accept {key: '...', value: '...'} and Key them
  *  Requirement 1.1 : If key exist, update the value
  *  Requirement 2   : Accept {key: '...'} and return it's corresponding value
  *  Requirement 3   : If given {key: '...', timestamp: '...'}, return the value with with the same timestamp
@@ -9,7 +9,7 @@ needs to be able to:
 
 const express = require("express");
 const mongoose = require("mongoose");
-const Store = require("./models/store.model");
+const Key = require("./models/key.model");
 const app = express();
 
 app.use(express.json());
@@ -17,12 +17,12 @@ app.use(express.json());
 /**
  * * Requirement 1
  */
-app.post("/api/store", async (req, res) => {
+app.post("/api/Key", async (req, res) => {
   try {
-    const list = await Store.find({});
+    const list = await Key.find({});
     if (list.includes((item) => item.key === req.body.key)) {
-      const store = await Store.create(req.body);
-      res.status(200).json(store);
+      const Key = await Key.create(req.body);
+      res.status(200).json(Key);
     } else {
       /** do update  */
     }
@@ -34,10 +34,10 @@ app.post("/api/store", async (req, res) => {
 /**
  * * Requirement 2
  */
-app.get("/api/store/find-key", async (req, res) => {
+app.get("/api/Key/find-key", async (req, res) => {
   try {
-    const store = await Store.find({});
-    const result = store.find((item) => item.key === req.body.key);
+    const Key = await Key.find({});
+    const result = Key.find((item) => item.key === req.body.key);
     res.status(200).json(result.value);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -47,10 +47,10 @@ app.get("/api/store/find-key", async (req, res) => {
 /**
  * Requirement 3
  */
-app.get("/api/store/find-key-timestamp", async (req, res) => {
+app.get("/api/Key/find-key-timestamp", async (req, res) => {
   try {
-    const store = await Store.find({});
-    const getAllKeys = store.filter((item) => item.key === req.body.key);
+    const Key = await Key.find({});
+    const getAllKeys = Key.filter((item) => item.key === req.body.key);
     const result = getAllKeys.find(
       (item) =>
         new Date(item.timestamp).getTime() ===
@@ -64,25 +64,25 @@ app.get("/api/store/find-key-timestamp", async (req, res) => {
 });
 
 /**
- * Get all stores
+ * Get all Keys
  */
-app.get("/api/store", async (req, res) => {
+app.get("/api/Key", async (req, res) => {
   try {
-    const store = await Store.find({});
-    res.status(200).json(store);
+    const Key = await Key.find({});
+    res.status(200).json(Key);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
 /**
- * Get store by id
+ * Get Key by id
  */
-app.get("/api/store/:id", async (req, res) => {
+app.get("/api/Key/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const store = await Store.findById(id);
-    res.status(200).json(store);
+    const Key = await Key.findById(id);
+    res.status(200).json(Key);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
