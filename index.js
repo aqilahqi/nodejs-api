@@ -10,83 +10,13 @@ needs to be able to:
 const express = require("express");
 const mongoose = require("mongoose");
 const Key = require("./models/key.model");
+const keyRoutes = require("./routes/key.route");
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-/**
- * * Requirement 1
- */
-app.post("/api/Key", async (req, res) => {
-  try {
-    const list = await Key.find({});
-    if (list.includes((item) => item.key === req.body.key)) {
-      const Key = await Key.create(req.body);
-      res.status(200).json(Key);
-    } else {
-      /** do update  */
-    }
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-/**
- * * Requirement 2
- */
-app.get("/api/Key/find-key", async (req, res) => {
-  try {
-    const Key = await Key.find({});
-    const result = Key.find((item) => item.key === req.body.key);
-    res.status(200).json(result.value);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-/**
- * Requirement 3
- */
-app.get("/api/Key/find-key-timestamp", async (req, res) => {
-  try {
-    const Key = await Key.find({});
-    const getAllKeys = Key.filter((item) => item.key === req.body.key);
-    const result = getAllKeys.find(
-      (item) =>
-        new Date(item.timestamp).getTime() ===
-        new Date(req.body.timestamp).getTime()
-    );
-
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-/**
- * Get all Keys
- */
-app.get("/api/Key", async (req, res) => {
-  try {
-    const Key = await Key.find({});
-    res.status(200).json(Key);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-/**
- * Get Key by id
- */
-app.get("/api/Key/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const Key = await Key.findById(id);
-    res.status(200).json(Key);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+app.use("/api", keyRoutes);
 
 mongoose
   .connect(
