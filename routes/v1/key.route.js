@@ -4,7 +4,7 @@ const {
   createKey,
   getKey,
   getAllKeys,
-} = require("../controller/key.controller");
+} = require("../../controller/key.controller");
 
 router.get("/keys", getAllKeys);
 router.get("/key", getKey);
