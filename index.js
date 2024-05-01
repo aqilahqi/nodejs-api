@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/v1", routes);
+// app.use("/api/v1", routes);
 
 mongoose
   .connect(
@@ -23,9 +23,10 @@ mongoose
   )
   .then(() => {
     console.log("Connected to database!");
-    app.listen(3000, () => {
-      console.log("Server is running on port 3000");
-    });
+    // app.listen(3000, () => {
+    //   console.log("Server is running on port 3000");
+    // });
+    app.use("/.netlify/functions/index", routes);
   })
   .catch(() => {
     console.log("Connection to database failed");
