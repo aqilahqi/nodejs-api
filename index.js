@@ -6,20 +6,20 @@ needs to be able to:
  *  Requirement 2   : Accept {key: '...'} and return it's corresponding value
  *  Requirement 3   : If given {key: '...', timestamp: '...'}, return the value with with the same timestamp
  */
-
+const env = require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const routes = require("./routes/index");
+const routes = require("./routes/v1/index");
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api", routes);
+app.use("/api/v1", routes);
 
 mongoose
   .connect(
-    "mongodb+srv://qilaqi:S5SKZhTO0BF3rK6P@backenddb.ldr8s5j.mongodb.net/?retryWrites=true&w=majority&appName=BackendDB"
+    `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@backenddb.ldr8s5j.mongodb.net/?retryWrites=true&w=majority&appName=BackendDB`
   )
   .then(() => {
     console.log("Connected to database!");
