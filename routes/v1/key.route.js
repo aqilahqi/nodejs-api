@@ -6,9 +6,9 @@ const {
   getAllKeys,
 } = require("../../controller/key.controller");
 
-router.get("/keys", getAllKeys);
-router.get("/key", getKey);
+router.get("/v1/keys", getAllKeys);
+router.get("/v1/key", getKey);
 
-router.post("/key", createKey);
+router.post("/v1/key", createKey);
 
 module.exports = router;

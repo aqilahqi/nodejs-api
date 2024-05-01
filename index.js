@@ -6,6 +6,7 @@ needs to be able to:
  *  Requirement 2   : Accept {key: '...'} and return it's corresponding value
  *  Requirement 3   : If given {key: '...', timestamp: '...'}, return the value with with the same timestamp
  */
+require("dotenv").config();
 const express = require("express");
 const serverless = require("serverless-http");
 const mongoose = require("mongoose");
@@ -16,7 +17,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/api/v1", routes);
+app.use("/api/", routes);
 
 mongoose
   .connect(
@@ -24,12 +25,12 @@ mongoose
   )
   .then(() => {
     console.log("Connected to database!");
-    // app.listen(3000, () => {
-    //   console.log("Server is running on port 3000");
-    // });
+    app.listen(3000, () => {
+      console.log("Server is running on port 3000");
+    });
   })
   .catch(() => {
-    console.log("Connection to database failed");
+    console.log("Connection to database failed: ", process.env.DB_USERNAME);
   });
 
 module.exports.handler = serverless(app);
