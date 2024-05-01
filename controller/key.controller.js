@@ -26,7 +26,7 @@ const createKey = async (req, res) => {
 };
 
 /**
- * * Requirement 2
+ * * Requirement 2 & 3
  */
 const getKey = async (req, res) => {
   try {
