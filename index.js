@@ -8,7 +8,6 @@ needs to be able to:
  */
 require("dotenv").config();
 const express = require("express");
-const serverless = require("serverless-http");
 const mongoose = require("mongoose");
 const routes = require("./routes/v1/index");
 
@@ -32,5 +31,3 @@ mongoose
   .catch(() => {
     console.log("Connection to database failed: ", process.env.DB_USERNAME);
   });
-
-module.exports.handler = serverless(app);
